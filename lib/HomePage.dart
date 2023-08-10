@@ -24,14 +24,51 @@ class _HomePageState extends State<HomePage> {
     NumberAudio('ten.wav', Colors.purple, "Ten"),
   ];
 
-  play(String uri) {
-    audioPlayer.play(UrlSource(uri));
+  void play(String uri) {
+    audioPlayer.play(AssetSource(uri));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("Spanish Audio Number"),
+      ),
+      body: Container(
+        child: Center(
+            child: Column(
+          children: [
+            Image(
+              image: AssetImage('images/logo.png'),
+            ),
+            Expanded(
+              child: GridView.builder(
+                padding: EdgeInsets.all(20),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 2.0,
+                    crossAxisSpacing: 30,
+                    mainAxisSpacing: 20.0),
+                itemBuilder: (context, index) => SizedBox(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: numberList[index].buttonColor,
+                    ),
+                    child: Text(
+                      numberList[index].buttonText,
+                      style: TextStyle(fontSize: 20.0, color: Colors.white),
+                    ),
+                    onPressed: () => play(numberList[index].audioUri),
+                  ),
+                  width: 100.0,
+                  height: 50.0,
+                ),
+                itemCount: numberList.length,
+              ),
+            ),
+          ],
+        )),
+      ),
     );
   }
 }
